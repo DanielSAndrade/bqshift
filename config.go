@@ -9,4 +9,5 @@ type Configuration struct {
 	DayPartition      bool
 	AWS               *redshift.AWSConfiguration
 	WhereClause       string
+	SearchPath        string
 }

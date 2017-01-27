@@ -42,7 +42,7 @@ func (c *Client) doUnload(source *RedshiftSource) (*UnloadResult, error) {
 	return newUnloadOperation(c, c.aws, source).execute()
 }
 
-func (c *Client) Unload(table string, partition *DatePartition, whereClause string) (*UnloadResult, error) {
+func (c *Client) Unload(table string, partition *DatePartition, whereClause string, searchPath string) (*UnloadResult, error) {
 	schema, err := c.ExtractSchema(table)
 	if err != nil {
 		return nil, fmt.Errorf("error extracting table schema: %s", err.Error())
@@ -52,6 +52,7 @@ func (c *Client) Unload(table string, partition *DatePartition, whereClause stri
 		Schema:      schema,
 		Partition:   partition,
 		WhereClause: whereClause,
+		SearchPath:  searchPath,
 	}
 	return c.doUnload(source)
 }

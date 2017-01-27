@@ -16,6 +16,7 @@ var (
 	project              = kingpin.Flag("project", "Google Project ID").OverrideDefaultFromEnvar("GCLOUD_PROJECT").Required().String()
 	overwrite            = kingpin.Flag("overwrite", "Overwrite BigQuery table").Bool()
 	usePartitionedTables = kingpin.Flag("partition", "Create time partitioned BigQuery tables.").Bool()
+	searchPath           = kingpin.Flag("search-path", "Redshift search_path for non default schemas.").String()
 	dateExpression       = kingpin.Flag("date-expression", "Redshift SQL expression to return row date. e.g. CAST(inserted as DATE)").String()
 	dateFilter           = kingpin.Flag("date", "Date (YYYY-MM-DD) of partition to filter and load. e.g. 2016-09-30.").String()
 	where                = kingpin.Flag("where", "Redshift WHERE clause. Cannot be used with --date/--date-expression. e.g.: CAST(inserted as DATE) < 2016-09-30").String()
@@ -73,6 +74,7 @@ func main() {
 		OverwriteBigQuery: *overwrite,
 		DayPartition:      *usePartitionedTables,
 		WhereClause:       *where,
+		SearchPath:        *searchPath,
 	}
 	shifter, err := NewShifter(config)
 	if err != nil {

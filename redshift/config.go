@@ -44,6 +44,7 @@ type RedshiftSource struct {
 	Schema      *TableSchema
 	Partition   *DatePartition
 	WhereClause string
+	SearchPath  string
 }
 
 func (s *RedshiftSource) isPartitioned() bool {
@@ -60,6 +61,14 @@ func (s *RedshiftSource) where() string {
 	}
 
 	return fmt.Sprintf("WHERE %s", escape(s.WhereClause))
+}
+
+func (s *RedshiftSource) searchPath() string {
+	if s.SearchPath == "" {
+		return ""
+	}
+	
+	return fmt.Sprintf("SET search_path TO %s ;", escape(s.SearchPath))
 }
 
 const SQLDateFormat = "2006-01-02"

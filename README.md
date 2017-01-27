@@ -41,6 +41,14 @@ $ bqshift --overwrite --partition --date-expression="CAST(ts as DATE)" --date=20
 
 Note that you can _only_ update data that was already part of a partition. For example, if you were to create a partitioned table and load a bulk set of historical/archived data when you use `--overwrite` and `--date` you'll overwrite all data in the table. Instead I would suggest having a separate `_archive` table from the partitioned tables.
 
+### Choosing a Different Search Path in AWS Redshift
+
+It's possible to inform a different [search path](http://docs.aws.amazon.com/redshift/latest/dg/r_search_path.html) for the Redshift unload operation.
+
+```
+$ bqshift --search-path="enterprise" --config=config.example.yml  <DEST DATASET> <REDSHIFT TABLE>
+``` 
+
 ## Notes
 
 As part of the unloading process bqshift generates SQL for Redshift; this is _not_ protected against SQL injection attacks so beware of using this tool with user-generated input.

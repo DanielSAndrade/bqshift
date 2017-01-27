@@ -33,7 +33,7 @@ func (op *unloadOperation) execute() (*UnloadResult, error) {
 }
 
 func (op *unloadOperation) unloadStatement() string {
-	return fmt.Sprintf("UNLOAD ('%s') TO '%s' WITH CREDENTIALS '%s' %s", op.source.SelectClause(), op.staging(), op.credentials(), op.options())
+	return fmt.Sprintf("%s UNLOAD ('%s') TO '%s' WITH CREDENTIALS '%s' %s", op.source.searchPath(), op.source.SelectClause(), op.staging(), op.credentials(), op.options())
 }
 
 func (op *unloadOperation) options() string {
